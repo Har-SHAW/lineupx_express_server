@@ -73,48 +73,58 @@ router.post("/login", passport.authenticate("local"), (req, res) => {
   });
 });
 
-router.put("/accept/:postId", authenticate.verifyUser, (req, res, next) => {
-  User.findById(req.user._id).then((data) => {
-    let acc = data.accepted;
-    let rej = data.rejected;
-    for (let i = 0; rej.length; i++) {
-      if (rej[i].equals(req.params.postId)) {
-        rej.splice(i, 1);
-      }
-    }
-    if (!acc.includes(req.params.postId)) {
-      acc.push(req.params.postId);
-    }
-    data.accepted = acc;
-    data.rejected = rej;
-    data.save().then((data) => {
-      res.statusCode = 200;
-      res.setHeader("Content-Type", "application/json");
-      res.json({ sucess: true });
-    });
-  });
+router.put("/accept/:postId", authenticate.verifyUser,authenticate.verifyCandidate, (req, res, next) => {
+  User.findById(req.user._id)
+    .then(
+      (data) => {
+        let acc = data.accepted;
+        let rej = data.rejected;
+        for (let i = 0; rej.length; i++) {
+          if (rej[i].equals(req.params.postId)) {
+            rej.splice(i, 1);
+          }
+        }
+        if (!acc.includes(req.params.postId)) {
+          acc.push(req.params.postId);
+        }
+        data.accepted = acc;
+        data.rejected = rej;
+        data.save().then((data) => {
+          res.statusCode = 200;
+          res.setHeader("Content-Type", "application/json");
+          res.json({ sucess: true });
+        });
+      },
+      (err) => next(err)
+    )
+    .catch((err) => next(err));
 });
 
-router.put("/reject/:postId", authenticate.verifyUser, (req, res, next) => {
-  User.findById(req.user._id).then((data) => {
-    let rej = data.rejected;
-    let acc = data.accepted;
-    for (let i = 0; i < acc.length; i++) {
-      if (acc[i].equals(req.params.postId)) {
-        acc.splice(i, 1);
-      }
-    }
-    if (!rej.includes(req.params.postId)) {
-      rej.push(req.params.postId);
-    }
-    data.rejected = rej;
-    data.accepted = acc;
-    data.save().then((data) => {
-      res.statusCode = 200;
-      res.setHeader("Content-Type", "application/json");
-      res.json({ sucess: true });
-    });
-  });
+router.put("/reject/:postId", authenticate.verifyUser,authenticate.verifyCandidate, (req, res, next) => {
+  User.findById(req.user._id)
+    .then(
+      (data) => {
+        let rej = data.rejected;
+        let acc = data.accepted;
+        for (let i = 0; i < acc.length; i++) {
+          if (acc[i].equals(req.params.postId)) {
+            acc.splice(i, 1);
+          }
+        }
+        if (!rej.includes(req.params.postId)) {
+          rej.push(req.params.postId);
+        }
+        data.rejected = rej;
+        data.accepted = acc;
+        data.save().then((data) => {
+          res.statusCode = 200;
+          res.setHeader("Content-Type", "application/json");
+          res.json({ sucess: true });
+        });
+      },
+      (err) => next(err)
+    )
+    .catch((err) => next(err));
 });
 
 module.exports = router;
