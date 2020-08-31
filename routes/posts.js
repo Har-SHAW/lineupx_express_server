@@ -74,7 +74,7 @@ router.put(
               )
               .catch((err) => next(err));
           } else {
-            var err = new Error("you are not allowed to do thi soperation");
+            var err = new Error("you are not allowed to do this operation");
             next(err);
           }
         },
@@ -83,5 +83,25 @@ router.put(
       .catch((err) => next(err));
   }
 );
+
+router.delete("/:postId",authenticate.verifyUser, authenticate.verifyEmployer, (req, res, next) => {
+  Post.findById(req.params.postId)
+    .then(
+      (data) => {
+        if (data.postedBy.equals(req.user._id)) {
+          Post.deleteOne(data).then((data) => {
+            res.statusCode = 200;
+            res.setHeader("Content-Type", "application/json");
+            res.json({ success: true });
+          });
+        } else {
+          var err = new Error("you are not allowed to do this operation");
+          next(err);
+        }
+      },
+      (err) => next(err)
+    )
+    .catch((err) => next(err));
+});
 
 module.exports = router;
