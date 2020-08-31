@@ -13,8 +13,8 @@ POST http://localhost:3000/users/login
 Content-Type: application/json
 
 {
-    "username":"shawEmp2",
-    "password":"shawEmp2",
+    "username":"shaw",
+    "password":"shaw",
     "firstname":"harsha",
     "lastname":"vardhan",
     "candidate":"false",
@@ -28,13 +28,18 @@ GET http://localhost:3000/posts/
 
 
 ###
-POST http://localhost:3000/posts
+Put http://localhost:3000/posts/5f4d39549d0781ef5877f267
 Content-Type: application/json
 Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjRkM2IwNGM2YTlkM2VmY2EyM2E3YzEiLCJpYXQiOjE1OTg4OTY5MDksImV4cCI6MTU5ODkwMDUwOX0.7DrLcenRxVOkbXfAa6VPatNipWdaphHtDPOWYLTdNuY
 
 {
     "title":"job",
     "description":"des",
-    "salary":"pop",
-    "requirements":"skills"
+    "salary":"1000",
+    "requirements":"skill"
 }
+
+###
+PUT http://localhost:3000/users/accept/5f4d39549d0781ef5877f267
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjRkMTg3ZTE1MjQwYmRmMWFmMGVjNmEiLCJpYXQiOjE1OTg4OTg2MDIsImV4cCI6MTU5ODkwMjIwMn0.mLKQUOENhsopZLc7VSiMwMM_ulkdwJ_Vw9NeGOm8AY8
