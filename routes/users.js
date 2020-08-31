@@ -2,19 +2,20 @@ var express = require("express");
 var router = express.Router();
 var User = require("../models/user");
 var passport = require("passport");
+var authenticate = require('../authenticate');
 
-// router.get("/", (req, res, next) => {
-//   User.find({})
-//     .then(
-//       (user) => {
-//         res.statusCode = 200;
-//         res.setHeader("Content-Type", "application/json");
-//         res.json(user);
-//       },
-//       (err) => next(err)
-//     )
-//     .catch((err) => next(err));
-// });
+router.get("/", (req, res, next) => {
+  User.find({})
+    .then(
+      (user) => {
+        res.statusCode = 200;
+        res.setHeader("Content-Type", "application/json");
+        res.json(user);
+      },
+      (err) => next(err)
+    )
+    .catch((err) => next(err));
+});
 
 // router.delete("/", (req, res, next) => {
 //   User.remove({})

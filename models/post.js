@@ -19,6 +19,14 @@ var Post = new Scheme(
       type: String,
       default: "",
     },
+    organization: {
+      type: String,
+      default: "",
+    },
+    postedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
   },
   {
     timestamps: true,

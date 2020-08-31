@@ -2,12 +2,39 @@ POST http://localhost:3000/users/signup
 Content-Type: application/json
 
 {
-    "username":"shaw",
-    "password":"shaw",
+    "username":"shawEmp",
+    "password":"shawEmp",
     "firstname":"harsha",
     "lastname":"vardhan",
-    "candidate":"true"
+    "candidate":"false"
 }
+###
+POST http://localhost:3000/users/login
+Content-Type: application/json
+
+{
+    "username":"shawEmp2",
+    "password":"shawEmp2",
+    "firstname":"harsha",
+    "lastname":"vardhan",
+    "candidate":"false",
+    "organization":"shaw"
+}
+###
+GET http://localhost:3000/users
 
 ###
-GET  http://localhost:3000/users/
+GET http://localhost:3000/posts/
+
+
+###
+POST http://localhost:3000/posts
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjRkM2IwNGM2YTlkM2VmY2EyM2E3YzEiLCJpYXQiOjE1OTg4OTY5MDksImV4cCI6MTU5ODkwMDUwOX0.7DrLcenRxVOkbXfAa6VPatNipWdaphHtDPOWYLTdNuY
+
+{
+    "title":"job",
+    "description":"des",
+    "salary":"pop",
+    "requirements":"skills"
+}
