@@ -15,6 +15,23 @@ exports.getToken = function (user) {
   return jst.sign(user, config.secretKey, { expiresIn: 3600 });
 };
 
+exports.verifyCandidate = (req, res, next) => {
+    if(req.user.candidate === true){
+        return next();
+    }else{
+        err = new Error(" your token cannot access non candidate information ");
+        next(err);
+    }
+}
+
+exports.verifyEmployer = (req, res, next) => {
+    if(req.user.candidate === false){
+        return next();
+    }else{
+        err = new Error(" your token cannot access non employers information ");
+    }
+}
+
 var opts = {};
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 opts.secretOrKey = config.secretKey;

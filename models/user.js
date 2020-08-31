@@ -18,7 +18,7 @@ var User = new Scheme(
     },
     accepted: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }],
     rejected: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }],
-    organizationName: {
+    organization: {
       type: String,
       default: "",
     },

@@ -1,0 +1,13 @@
+POST http://localhost:3000/users/signup
+Content-Type: application/json
+
+{
+    "username":"shaw",
+    "password":"shaw",
+    "firstname":"harsha",
+    "lastname":"vardhan",
+    "candidate":"true"
+}
+
+###
+GET  http://localhost:3000/users/
