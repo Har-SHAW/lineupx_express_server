@@ -1,9 +1,9 @@
-POST http://localhost:3000/users/signup
+POST http://localhost:3000/users/login
 Content-Type: application/json
 
 {
-    "username":"shawEmp",
-    "password":"shawEmp",
+    "username":"shawEmp2",
+    "password":"shawEmp2",
     "firstname":"harsha",
     "lastname":"vardhan",
     "candidate":"false"
@@ -43,3 +43,8 @@ Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjRkM2IwN
 PUT http://localhost:3000/users/accept/5f4d39549d0781ef5877f267
 Content-Type: application/json
 Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjRkMTg3ZTE1MjQwYmRmMWFmMGVjNmEiLCJpYXQiOjE1OTg4OTg2MDIsImV4cCI6MTU5ODkwMjIwMn0.mLKQUOENhsopZLc7VSiMwMM_ulkdwJ_Vw9NeGOm8AY8
+
+###
+DELETE  http://localhost:3000/posts/5f4d3c372c0d2df111966a58
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjRkM2IwNGM2YTlkM2VmY2EyM2E3YzEiLCJpYXQiOjE1OTg4OTk5NjAsImV4cCI6MTU5ODkwMzU2MH0.gcMC7Sz5_sI0zBPImhmaEw8sZSJyJuKtEt0EHcXqM-M

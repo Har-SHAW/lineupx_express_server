@@ -34,7 +34,7 @@ router.post(
                 console.log("Post Created ");
                 res.statusCode = 200;
                 res.setHeader("Content-Type", "application/json");
-                res.json(data);
+                res.json(data._id);
               },
               (err) => next(err)
             )

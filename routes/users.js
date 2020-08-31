@@ -92,7 +92,7 @@ router.put("/accept/:postId", authenticate.verifyUser,authenticate.verifyCandida
         data.save().then((data) => {
           res.statusCode = 200;
           res.setHeader("Content-Type", "application/json");
-          res.json({ sucess: true });
+          res.json({ success: true });
         });
       },
       (err) => next(err)
@@ -119,7 +119,7 @@ router.put("/reject/:postId", authenticate.verifyUser,authenticate.verifyCandida
         data.save().then((data) => {
           res.statusCode = 200;
           res.setHeader("Content-Type", "application/json");
-          res.json({ sucess: true });
+          res.json({ success: true });
         });
       },
       (err) => next(err)
