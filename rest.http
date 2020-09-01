@@ -9,7 +9,7 @@ Content-Type: application/json
     "candidate":"false"
 }
 ###
-POST http://localhost:3000/users/candidate/login
+POST http://localhost:5000/users/employer/login
 Content-Type: application/json
 
 {
