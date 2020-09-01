@@ -1,20 +1,24 @@
-POST http://localhost:3000/users/login
+POST http://localhost:5000/users/candidate/login
 Content-Type: application/json
 
 {
-    "username":"shawEmp2",
-    "password":"shawEmp2",
+    "username":"shaw",
+    "password":"shawshaw",
     "firstname":"harsha",
     "lastname":"vardhan",
     "candidate":"false"
 }
+
+###
+POST http://localhost:5000/users/candidate/fetch
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjRlODUzNDI1YTkzOTQ5MmQ5MDViMjIiLCJpYXQiOjE1OTg5ODkxMDYsImV4cCI6MTU5ODk5MjcwNn0.KACIJDfGrVIYAnnrM1vw3hHmPUJlHThPEjMXB1qRAQc
 ###
 POST http://localhost:5000/users/employer/login
 Content-Type: application/json
 
 {
-    "username":"shaw",
-    "password":"shaw",
+    "username":"shawEmp",
+    "password":"shawEmp",
     "firstname":"harsha",
     "lastname":"vardhan",
     "candidate":"false",
@@ -48,3 +52,7 @@ Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjRkMTg3Z
 DELETE  http://localhost:3000/posts/5f4d3c372c0d2df111966a58
 Content-Type: application/json
 Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjRkM2IwNGM2YTlkM2VmY2EyM2E3YzEiLCJpYXQiOjE1OTg4OTk5NjAsImV4cCI6MTU5ODkwMzU2MH0.gcMC7Sz5_sI0zBPImhmaEw8sZSJyJuKtEt0EHcXqM-M
+
+###
+GET http://localhost:5000/posts/
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjRlYTlhZDZhNGFlZjhjZDdkY2MzYjUiLCJpYXQiOjE1OTg5OTUyOTYsImV4cCI6MTU5ODk5ODg5Nn0.mCIlLvMvncajirGCTK-Ha0ESvjXnUz0tkEpRiWeAs84

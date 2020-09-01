@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var passport = require('passport');
+var cors = require('cors');
 
 var indexRouter = require('./routes/index');
 var postRouter = require('./routes/posts');
@@ -30,6 +31,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(cors());
 app.use(passport.initialize());
 
 app.use('/', indexRouter);

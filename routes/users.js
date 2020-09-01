@@ -17,16 +17,16 @@ router.get("/", (req, res, next) => {
     .catch((err) => next(err));
 });
 
-// router.delete("/", (req, res, next) => {
-//   User.remove({})
-//     .then(
-//       (user) => {
-//         res.statusCode = 200;
-//       },
-//       (err) => next(err)
-//     )
-//     .catch((err) => next(err));
-// });
+router.delete("/", (req, res, next) => {
+  User.remove({})
+    .then(
+      (user) => {
+        res.statusCode = 200;
+      },
+      (err) => next(err)
+    )
+    .catch((err) => next(err));
+});
 
 router.post("/employer/signup", (req, res, next) => {
   User.register(
@@ -103,11 +103,6 @@ router.post("/employer/login", passport.authenticate("local"), (req, res) => {
     res.setHeader("Content-Type", "application/json");
     res.json({
       token: token,
-      id: req.user._id,
-      firstname: req.user.firstname,
-      lastname: req.user.lastname,
-      candidate: req.user.candidate,
-      organization: req.user.organization,
     });
   } else {
     res.statusCode = 401;
@@ -125,12 +120,6 @@ router.post("/candidate/login", passport.authenticate("local"), (req, res) => {
     res.setHeader("Content-Type", "application/json");
     res.json({
       token: token,
-      id: req.user._id,
-      firstname: req.user.firstname,
-      lastname: req.user.lastname,
-      candidate: req.user.candidate,
-      accepted: req.user.accepted,
-      rejected: req.user.rejected,
     });
   } else {
     res.statusCode = 401;
@@ -140,6 +129,41 @@ router.post("/candidate/login", passport.authenticate("local"), (req, res) => {
     });
   }
 });
+
+router.post(
+  "/candidate/fetch",
+  authenticate.verifyUser,
+  authenticate.verifyCandidate,
+  (req, res, next) => {
+    res.statusCode = 200;
+    res.setHeader("Content-Type", "application/json");
+    res.json({
+      id: req.user._id,
+      firstname: req.user.firstname,
+      lastname: req.user.lastname,
+      candidate: req.user.candidate,
+      accepted: req.user.accepted,
+      rejected: req.user.rejected,
+    });
+  }
+);
+
+router.post(
+  "/employer/fetch",
+  authenticate.verifyUser,
+  authenticate.verifyEmployer,
+  (req, res, next) => {
+    res.statusCode = 200;
+    res.setHeader("Content-Type", "application/json");
+    res.json({
+      id: req.user._id,
+      firstname: req.user.firstname,
+      lastname: req.user.lastname,
+      candidate: req.user.candidate,
+      organization: req.user.organization
+    });
+  }
+);
 
 router.put(
   "/accept/:postId",
@@ -151,7 +175,7 @@ router.put(
         (data) => {
           let acc = data.accepted;
           let rej = data.rejected;
-          for (let i = 0; rej.length; i++) {
+          for (let i = 0; i < rej.length; i++) {
             if (rej[i].equals(req.params.postId)) {
               rej.splice(i, 1);
             }
