@@ -43,7 +43,7 @@ router.post("/employer/signup", (req, res, next) => {
         user.accepted = [];
         user.rejected = [];
         if (req.body.organization) user.organization = req.body.organization;
-        user.candidate = false
+        user.candidate = false;
         user.save((err, user) => {
           if (err) {
             res.statusCode = 500;
@@ -77,7 +77,7 @@ router.post("/candidate/signup", (req, res, next) => {
         user.accepted = [];
         user.rejected = [];
         if (req.body.organization) user.organization = req.body.organization;
-        user.candidate = true
+        user.candidate = true;
         user.save((err, user) => {
           if (err) {
             res.statusCode = 500;
@@ -96,69 +96,113 @@ router.post("/candidate/signup", (req, res, next) => {
   );
 });
 
-router.post("/login", passport.authenticate("local"), (req, res) => {
-  var token = authenticate.getToken({ _id: req.user._id });
-  res.statusCode = 200;
-  res.setHeader("Content-Type", "application/json");
-  res.json({
-    success: true,
-    token: token,
-    status: "You are successfully logged in!",
-  });
+router.post("/employer/login", passport.authenticate("local"), (req, res) => {
+  if (req.user.candidate === false) {
+    var token = authenticate.getToken({ _id: req.user._id });
+    res.statusCode = 200;
+    res.setHeader("Content-Type", "application/json");
+    res.json({
+      token: token,
+      id: req.user._id,
+      firstname: req.user.firstname,
+      lastname: req.user.lastname,
+      candidate: req.user.candidate,
+      organization: req.user.organization,
+    });
+  } else {
+    res.statusCode = 401;
+    res.setHeader("Content-Type", "application/json");
+    res.json({
+      message: "you are not employer",
+    });
+  }
 });
 
-router.put("/accept/:postId", authenticate.verifyUser,authenticate.verifyCandidate, (req, res, next) => {
-  User.findById(req.user._id)
-    .then(
-      (data) => {
-        let acc = data.accepted;
-        let rej = data.rejected;
-        for (let i = 0; rej.length; i++) {
-          if (rej[i].equals(req.params.postId)) {
-            rej.splice(i, 1);
-          }
-        }
-        if (!acc.includes(req.params.postId)) {
-          acc.push(req.params.postId);
-        }
-        data.accepted = acc;
-        data.rejected = rej;
-        data.save().then((data) => {
-          res.statusCode = 200;
-          res.setHeader("Content-Type", "application/json");
-          res.json({ success: true });
-        });
-      },
-      (err) => next(err)
-    )
-    .catch((err) => next(err));
+router.post("/candidate/login", passport.authenticate("local"), (req, res) => {
+  if (req.user.candidate === true) {
+    var token = authenticate.getToken({ _id: req.user._id });
+    res.statusCode = 200;
+    res.setHeader("Content-Type", "application/json");
+    res.json({
+      token: token,
+      id: req.user._id,
+      firstname: req.user.firstname,
+      lastname: req.user.lastname,
+      candidate: req.user.candidate,
+      accepted: req.user.accepted,
+      rejected: req.user.rejected,
+    });
+  } else {
+    res.statusCode = 401;
+    res.setHeader("Content-Type", "application/json");
+    res.json({
+      message: "you are not a candidate",
+    });
+  }
 });
 
-router.put("/reject/:postId", authenticate.verifyUser,authenticate.verifyCandidate, (req, res, next) => {
-  User.findById(req.user._id)
-    .then(
-      (data) => {
-        let rej = data.rejected;
-        let acc = data.accepted;
-        for (let i = 0; i < acc.length; i++) {
-          if (acc[i].equals(req.params.postId)) {
-            acc.splice(i, 1);
+router.put(
+  "/accept/:postId",
+  authenticate.verifyUser,
+  authenticate.verifyCandidate,
+  (req, res, next) => {
+    User.findById(req.user._id)
+      .then(
+        (data) => {
+          let acc = data.accepted;
+          let rej = data.rejected;
+          for (let i = 0; rej.length; i++) {
+            if (rej[i].equals(req.params.postId)) {
+              rej.splice(i, 1);
+            }
           }
-        }
-        if (!rej.includes(req.params.postId)) {
-          rej.push(req.params.postId);
-        }
-        data.rejected = rej;
-        data.accepted = acc;
-        data.save().then((data) => {
-          res.statusCode = 200;
-          res.setHeader("Content-Type", "application/json");
-          res.json({ success: true });
-        });
-      },
-      (err) => next(err)
-    )
-    .catch((err) => next(err));
-});
+          if (!acc.includes(req.params.postId)) {
+            acc.push(req.params.postId);
+          }
+          data.accepted = acc;
+          data.rejected = rej;
+          data.save().then((data) => {
+            res.statusCode = 200;
+            res.setHeader("Content-Type", "application/json");
+            res.json({ success: true });
+          });
+        },
+        (err) => next(err)
+      )
+      .catch((err) => next(err));
+  }
+);
+
+router.put(
+  "/reject/:postId",
+  authenticate.verifyUser,
+  authenticate.verifyCandidate,
+  (req, res, next) => {
+    User.findById(req.user._id)
+      .then(
+        (data) => {
+          let rej = data.rejected;
+          let acc = data.accepted;
+          for (let i = 0; i < acc.length; i++) {
+            if (acc[i].equals(req.params.postId)) {
+              acc.splice(i, 1);
+            }
+          }
+          if (!rej.includes(req.params.postId)) {
+            rej.push(req.params.postId);
+          }
+          data.rejected = rej;
+          data.accepted = acc;
+          data.save().then((data) => {
+            res.statusCode = 200;
+            res.setHeader("Content-Type", "application/json");
+            res.json({ success: true });
+          });
+        },
+        (err) => next(err)
+      )
+      .catch((err) => next(err));
+  }
+);
 
 module.exports = router;
